@@ -12,7 +12,7 @@ from analyzer import profile_csv
 API_KEY = os.environ["ANALYZER_KEY"]
 ALLOWED_SUFFIXES = tuple(
     s.strip().lower() for s in os.environ.get("ALLOWED_FILE_HOSTS", "").split(",") if s.strip()
-)  # for S3: .amazonaws.com
+) 
 MAX_BYTES = int(os.environ.get("MAX_FILE_MB", "25")) * 1024 * 1024
 
 app = FastAPI()
