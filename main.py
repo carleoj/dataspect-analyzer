@@ -6,6 +6,7 @@ from fastapi import FastAPI, Header, HTTPException, UploadFile, File, Form
 from pydantic import BaseModel
 
 from analyzer import profile_csv
+from fastapi.concurrency import run_in_threadpool
 
 API_KEY = os.environ["ANALYZER_KEY"]
 MAX_BYTES = int(os.environ.get("MAX_FILE_MB", "25")) * 1024 * 1024
@@ -43,7 +44,7 @@ async def analyze(
                 raise e
             raise HTTPException(400, f"could not read uploaded file: {e}")
 
-         try:
+        try:
             return await run_in_threadpool(profile_csv, path, delimiter, header)
         except Exception as e:
             raise HTTPException(422, f"could not analyze file: {e}")
