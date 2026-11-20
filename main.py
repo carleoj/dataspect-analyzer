@@ -43,7 +43,7 @@ async def analyze(
                 raise e
             raise HTTPException(400, f"could not read uploaded file: {e}")
 
-        try:
-            return profile_csv(path, delimiter, header)
+         try:
+            return await run_in_threadpool(profile_csv, path, delimiter, header)
         except Exception as e:
             raise HTTPException(422, f"could not analyze file: {e}")
